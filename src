@@ -1,0 +1,16 @@
+--RUNNING TOTAL with window functions (acumulable)
+
+with trips as (
+	SELECT
+		date(start_time) as date,
+		COUNT(*) as num_trips
+	FROM ‘bigquery-public-data.austin_bikeshare.bikeshare_trips’
+	GROUP BY 1
+	ORDER BY 1
+)
+
+
+
+SELECT *
+	,SUM(num_trips) OVER(ORDER BY date) as running_total_trips
+FROM trips
